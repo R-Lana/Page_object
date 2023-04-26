@@ -3,6 +3,7 @@ package ru.netology.page;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import lombok.val;
+import org.w3c.dom.html.HTMLInputElement;
 
 import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.visible;
@@ -11,26 +12,34 @@ import static com.codeborne.selenide.Selenide.$$;
 
 public class DashboardPage {
     private SelenideElement heading = $("[data-test-id=dashboard]");
-    private SelenideElement refresh = $("#root > div > button");
+    private static SelenideElement firstCardButton = $("[data-test-id='92df3f1c-a033-48e6-8390-206f6b1f56c0'] .button");
+    private static SelenideElement secondCardButton = $("[data-test-id='0f3f5c2a-249e-4c3d-8287-09f7a039391d'] .button");
+
     private ElementsCollection cards = $$(".list__item div");
     private final String balanceStart = "баланс: ";
     private final String balanceFinish = " р.";
 
     public DashboardPage() {
-        heading.shouldBe(visible);
+            }
+
+    public static TransferPage pushFirstCardButton () {
+        firstCardButton.click();
+      return new TransferPage();
+    }
+    public static TransferPage pushSecondCardButton () {
+        secondCardButton.click();
+    return new TransferPage();
+    }
+    public int getFirstCardBalance() {
+        val text = cards.first().text();
+        return extractBalance(text);
     }
 
-    public TransferPage transferToCard (String id) {
-        val button = cards.find(attribute("data-test-id", id));
-        button.$("button").click();
-        return new TransferPage();
-    }
 
-    public int getCardBalance(String id) {
-        refresh.click();
-        val number = cards.find(attribute("data-test-id", id));
-        return extractBalance(number.text());
-    }
+    public int getSecondCardBalance() {
+      val text = cards.last().text();
+    return extractBalance(text);
+   }
 
     private int extractBalance(String text) {
         val start = text.indexOf(balanceStart);
