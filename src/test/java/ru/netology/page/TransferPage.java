@@ -16,15 +16,10 @@ public class TransferPage {
         sumAmount.setValue(valueOf(amount));
         fromAccount.setValue(String.valueOf(from));
         clickReplenish.click();
-        new DashboardPage();
+        return;
     }
-
-
-    public void errorLimit() {
+        public void unsuccessfulTransfer() {
         $( "[data-test-id=error-notification]").should(Condition.exactText("Ошибка"));
     }
 
-    public void invalidCard() {
-        $("[data-test-id=error-notification]").should(Condition.text("Ошибка! "));
-    }
 }
