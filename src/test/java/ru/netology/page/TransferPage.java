@@ -12,14 +12,15 @@ public class TransferPage {
     private SelenideElement fromAccount = $("[data-test-id=from] input");
     private SelenideElement clickReplenish = $("[data-test-id=action-transfer]");
 
-    public void transferMoney(int amount, DataHelper.CardsInfo from) {
+    public void transferMoney(int amount, String from) {
         sumAmount.setValue(valueOf(amount));
         fromAccount.setValue(String.valueOf(from));
         clickReplenish.click();
-        return;
     }
-        public void unsuccessfulTransfer() {
-        $( "[data-test-id=error-notification]").should(Condition.exactText("Ошибка"));
+
+    public void unsuccessfulTransfer() {
+
+        $("[data-test-id=error-notification]").should(Condition.text("Ошибка"));
     }
 
 }
